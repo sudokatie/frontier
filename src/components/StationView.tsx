@@ -1,6 +1,7 @@
 'use client';
 
 import { Player, MarketPrices, System, Commodity } from '@/game/types';
+import { FUEL_COST_PER_LY } from '@/game/constants';
 import { StatusBar } from './StatusBar';
 import { MarketPanel } from './MarketPanel';
 import { CargoPanel } from './CargoPanel';
@@ -25,7 +26,7 @@ export function StationView({
   onLaunch,
 }: StationViewProps) {
   const fuelNeeded = player.ship.maxFuel - player.ship.fuel;
-  const fuelCost = Math.ceil(fuelNeeded * 10); // 10 CR per LY
+  const fuelCost = Math.ceil(fuelNeeded * FUEL_COST_PER_LY);
 
   return (
     <div className="h-full flex flex-col gap-4">

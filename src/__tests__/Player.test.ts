@@ -110,19 +110,19 @@ describe('Player', () => {
 
   describe('spendCredits', () => {
     it('decreases credits', () => {
-      let player = createPlayer();
+      const player = createPlayer();
       const result = spendCredits(player, 30);
       expect(result?.credits).toBe(STARTING_CREDITS - 30);
     });
 
     it('returns null when not enough credits', () => {
-      let player = createPlayer();
+      const player = createPlayer();
       const result = spendCredits(player, STARTING_CREDITS + 1);
       expect(result).toBeNull();
     });
 
     it('allows spending exact amount', () => {
-      let player = createPlayer();
+      const player = createPlayer();
       const result = spendCredits(player, STARTING_CREDITS);
       expect(result?.credits).toBe(0);
     });

@@ -1,6 +1,6 @@
 // Player system for Frontier
 
-import { Player, CargoItem, Commodity, MarketPrices, Ship } from './types';
+import { Player, Commodity, MarketPrices, Ship } from './types';
 import { STARTING_CREDITS, STARTING_LOCATION } from './constants';
 import { createShip } from './Ship';
 

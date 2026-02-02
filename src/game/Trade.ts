@@ -1,6 +1,6 @@
 // Trade system for Frontier
 
-import { Player, Commodity, CargoItem, Ship } from './types';
+import { Player, Commodity, CargoItem } from './types';
 import { getCargoSpace } from './Ship';
 import { addCargo, removeCargo, addCredits, spendCredits, getCargoQuantity } from './Player';
 

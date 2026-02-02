@@ -1,4 +1,4 @@
-import { Game, createGame } from '../game/Game';
+import { createGame } from '../game/Game';
 import { STARTING_CREDITS, STARTING_LOCATION, SHIP_MAX_FUEL } from '../game/constants';
 
 describe('Game', () => {

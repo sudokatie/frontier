@@ -39,7 +39,7 @@ describe('Player', () => {
 
   describe('addCargo', () => {
     it('adds new cargo item', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       player = addCargo(player, 'food', 5, 10);
       expect(player.cargo).toHaveLength(1);
       expect(player.cargo[0].commodity).toBe('food');
@@ -47,7 +47,7 @@ describe('Player', () => {
     });
 
     it('combines same commodity', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       player = addCargo(player, 'food', 3, 10);
       player = addCargo(player, 'food', 2, 10);
       expect(player.cargo).toHaveLength(1);
@@ -55,7 +55,7 @@ describe('Player', () => {
     });
 
     it('averages purchase price when combining', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       player = addCargo(player, 'food', 2, 10); // 2 @ 10
       player = addCargo(player, 'food', 2, 20); // 2 @ 20
       // Average: (2*10 + 2*20) / 4 = 60/4 = 15
@@ -63,7 +63,7 @@ describe('Player', () => {
     });
 
     it('tracks different commodities separately', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       player = addCargo(player, 'food', 3, 10);
       player = addCargo(player, 'minerals', 2, 15);
       expect(player.cargo).toHaveLength(2);
@@ -72,28 +72,28 @@ describe('Player', () => {
 
   describe('removeCargo', () => {
     it('reduces cargo quantity', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       player = addCargo(player, 'food', 5, 10);
       player = removeCargo(player, 'food', 2);
       expect(player.cargo[0].quantity).toBe(3);
     });
 
     it('removes cargo item when quantity hits zero', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       player = addCargo(player, 'food', 5, 10);
       player = removeCargo(player, 'food', 5);
       expect(player.cargo).toHaveLength(0);
     });
 
     it('removes cargo item when removing more than owned', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       player = addCargo(player, 'food', 3, 10);
       player = removeCargo(player, 'food', 10);
       expect(player.cargo).toHaveLength(0);
     });
 
     it('does nothing for commodity not owned', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       player = addCargo(player, 'food', 3, 10);
       player = removeCargo(player, 'minerals', 2);
       expect(player.cargo).toHaveLength(1);
@@ -102,7 +102,7 @@ describe('Player', () => {
 
   describe('addCredits', () => {
     it('increases credits', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       player = addCredits(player, 50);
       expect(player.credits).toBe(STARTING_CREDITS + 50);
     });
@@ -110,19 +110,19 @@ describe('Player', () => {
 
   describe('spendCredits', () => {
     it('decreases credits', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       const result = spendCredits(player, 30);
       expect(result?.credits).toBe(STARTING_CREDITS - 30);
     });
 
     it('returns null when not enough credits', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       const result = spendCredits(player, STARTING_CREDITS + 1);
       expect(result).toBeNull();
     });
 
     it('allows spending exact amount', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       const result = spendCredits(player, STARTING_CREDITS);
       expect(result?.credits).toBe(0);
     });
@@ -130,7 +130,7 @@ describe('Player', () => {
 
   describe('movePlayer', () => {
     it('updates location', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       player = movePlayer(player, 'diso');
       expect(player.location).toBe('diso');
     });
@@ -138,7 +138,7 @@ describe('Player', () => {
 
   describe('updateShip', () => {
     it('updates ship', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       const newShip = { ...player.ship, fuel: 5 };
       player = updateShip(player, newShip);
       expect(player.ship.fuel).toBe(5);
@@ -158,13 +158,13 @@ describe('Player', () => {
     });
 
     it('calculates value at sell price', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       player = addCargo(player, 'food', 5, 10);
       expect(getCargoValue(player, market)).toBe(5 * 8);
     });
 
     it('sums multiple commodities', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       player = addCargo(player, 'food', 5, 10);
       player = addCargo(player, 'minerals', 2, 20);
       expect(getCargoValue(player, market)).toBe(5 * 8 + 2 * 15);
@@ -178,7 +178,7 @@ describe('Player', () => {
     });
 
     it('returns quantity of owned commodity', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       player = addCargo(player, 'food', 5, 10);
       expect(getCargoQuantity(player, 'food')).toBe(5);
     });
@@ -197,7 +197,7 @@ describe('Player', () => {
     });
 
     it('includes cargo value', () => {
-      const player = createPlayer();
+      let player = createPlayer();
       player = addCargo(player, 'food', 5, 10);
       expect(getTotalWealth(player, market)).toBe(STARTING_CREDITS + 5 * 8);
     });

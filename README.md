@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Frontier
 
-## Getting Started
+An Elite-style space trading game built with Next.js and TypeScript.
 
-First, run the development server:
+Travel between star systems, trade commodities, and build your fortune. Buy low in agricultural systems, sell high in high-tech ones. Manage your fuel carefully - getting stranded in deep space is embarrassing and fatal.
+
+## Play
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to play.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How to Play
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Start at Lave Station with 100 credits and a full tank
+2. Check the market - prices vary by system type
+3. Buy cargo (food is cheap in agricultural systems)
+4. Launch and open the galaxy map
+5. Jump to another system (fuel permitting)
+6. Sell your cargo for profit
+7. Repeat until rich (or stranded)
 
-## Learn More
+## Trading Tips
 
-To learn more about Next.js, take a look at the following resources:
+- Agricultural systems: cheap food
+- Industrial systems: cheap minerals  
+- Mining systems: cheap minerals
+- High-tech systems: cheap computers, expensive everything else
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The profit is in the arbitrage. Know your markets.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Controls
 
-## Deploy on Vercel
+**Station View:**
+- Buy/Sell commodities in the market
+- Refuel before long journeys
+- Launch to access galaxy map
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Galaxy Map:**
+- Click systems to select them
+- Green ring = in fuel range
+- Red text = out of range
+- Jump button travels to selected system
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Tech Stack
+
+- Next.js 14 with App Router
+- TypeScript
+- Canvas 2D for galaxy map
+- Tailwind CSS
+- Jest for testing
+
+## Architecture
+
+```
+src/
+├── app/           # Next.js pages
+├── components/    # React UI
+│   ├── GameCanvas.tsx     # Main orchestrator
+│   ├── StationView.tsx    # Trading interface
+│   ├── GalaxyMap.tsx      # Navigation
+│   ├── MarketPanel.tsx    # Buy/sell
+│   ├── CargoPanel.tsx     # Cargo hold
+│   └── StatusBar.tsx      # Credits/fuel/cargo
+└── game/          # Pure TypeScript logic
+    ├── Galaxy.ts          # System/route management
+    ├── Market.ts          # Price calculation
+    ├── Ship.ts            # Fuel/cargo
+    ├── Player.ts          # State management
+    ├── Trade.ts           # Buy/sell logic
+    ├── Game.ts            # Orchestrator
+    └── Renderer.ts        # Canvas drawing
+```
+
+All game logic is testable without React.
+
+## Development
+
+```bash
+npm run dev      # Start dev server
+npm run build    # Production build
+npm test         # Run tests
+npm run lint     # Run linter
+```
+
+## License
+
+MIT
+
+## Author
+
+Katie

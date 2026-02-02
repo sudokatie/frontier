@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Game, createGame } from '@/game/Game';
 import { Commodity } from '@/game/types';
 import { StationView } from './StationView';
 import { GalaxyMap } from './GalaxyMap';
+import { JumpScreen } from './JumpScreen';
 
 export function GameCanvas() {
   const [game] = useState<Game>(() => createGame());
@@ -67,14 +68,40 @@ export function GameCanvas() {
     refresh();
   }, [game, refresh]);
 
+  const [jumpTarget, setJumpTarget] = useState<string | null>(null);
+
   const handleJump = useCallback(() => {
     if (!state.selectedSystem) return;
-    const result = game.jump(state.selectedSystem);
-    if (!result.success && result.error) {
-      console.log('Jump failed:', result.error);
-    }
+    
+    // Get target system name before jumping
+    const targetSystem = galaxy.systems.find(s => s.id === state.selectedSystem);
+    if (!targetSystem) return;
+
+    // Start jump animation
+    setJumpTarget(targetSystem.name);
+    game.setView('jumping');
     refresh();
-  }, [game, state.selectedSystem, refresh]);
+  }, [game, state.selectedSystem, galaxy.systems, refresh]);
+
+  // Handle jump animation completion
+  useEffect(() => {
+    if (state.view === 'jumping' && jumpTarget) {
+      const timer = setTimeout(() => {
+        // Find the system id from the name
+        const targetSystem = galaxy.systems.find(s => s.name === jumpTarget);
+        if (targetSystem) {
+          const result = game.jump(targetSystem.id);
+          if (!result.success && result.error) {
+            console.log('Jump failed:', result.error);
+          }
+        }
+        setJumpTarget(null);
+        refresh();
+      }, 1500); // 1.5 second jump animation
+
+      return () => clearTimeout(timer);
+    }
+  }, [state.view, jumpTarget, game, galaxy.systems, refresh]);
 
   return (
     <div className="w-full h-screen bg-black p-4">
@@ -102,6 +129,10 @@ export function GameCanvas() {
           onJump={handleJump}
           onBack={handleBack}
         />
+      )}
+
+      {state.view === 'jumping' && jumpTarget && (
+        <JumpScreen destination={jumpTarget} />
       )}
     </div>
   );

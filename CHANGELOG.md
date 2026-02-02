@@ -27,6 +27,6 @@
 ### Starting Conditions
 
 - 100 credits
-- 7.0 LY fuel tank
-- 20 tonne cargo capacity
+- 10 LY fuel tank
+- 10 ton cargo capacity
 - Located at Lave Station

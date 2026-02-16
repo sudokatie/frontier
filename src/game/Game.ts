@@ -6,6 +6,7 @@ import { createPlayer, movePlayer, updateShip, addCredits } from './Player';
 import { getMarketPrices } from './Market';
 import { consumeFuel, refuel as shipRefuel } from './Ship';
 import { buy as tradeBuy, sell as tradeSell, TradeResult } from './Trade';
+import { Sound } from './Sound';
 
 export interface GameActions {
   buy: (commodity: Commodity, quantity: number) => TradeResult;
@@ -72,6 +73,9 @@ export class Game {
     
     if (result.success) {
       this.state.player = result.player;
+      Sound.play('buy');
+    } else {
+      Sound.play('error');
     }
     
     return result;
@@ -88,6 +92,9 @@ export class Game {
     
     if (result.success) {
       this.state.player = result.player;
+      Sound.play('sell');
+    } else {
+      Sound.play('error');
     }
     
     return result;
@@ -112,6 +119,7 @@ export class Game {
     this.state.player = newPlayer;
     this.state.view = 'station';
     this.state.selectedSystem = null;
+    Sound.play('jump');
     
     return { success: true };
   }
@@ -127,6 +135,7 @@ export class Game {
     newPlayer = addCredits(newPlayer, -cost);
     
     this.state.player = newPlayer;
+    Sound.play('refuel');
     
     return { success: true, cost };
   }
@@ -157,6 +166,16 @@ export class Game {
       this.state.selectedSystem,
       this.state.player.ship.fuel
     );
+  }
+
+  toggleSound(): boolean {
+    const newState = !Sound.isEnabled();
+    Sound.setEnabled(newState);
+    return newState;
+  }
+
+  isSoundEnabled(): boolean {
+    return Sound.isEnabled();
   }
 }
 

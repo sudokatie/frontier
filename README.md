@@ -4,6 +4,8 @@ An Elite-style space trading game built with Next.js and TypeScript.
 
 Travel between star systems, trade commodities, and build your fortune. Buy low in agricultural systems, sell high in high-tech ones. Manage your fuel carefully - getting stranded in deep space is embarrassing and fatal.
 
+Features retro sound effects (synthesized via Web Audio API) for that authentic 80s space trader vibe.
+
 ## Play
 
 ```bash

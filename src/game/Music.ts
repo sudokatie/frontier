@@ -3,7 +3,7 @@
  * Generates spacey, exploration-themed chiptune background music.
  */
 
-type MusicTrack = 'gameplay' | 'menu' | 'victory';
+type MusicTrack = 'gameplay' | 'menu' | 'victory' | 'gameover';
 
 interface Note {
   frequency: number;
@@ -146,6 +146,40 @@ class MusicSystem {
     }));
   }
 
+  private getMenuNotes(): Note[] {
+    const bpm = 70;
+    const beat = 60 / bpm;
+    return [
+      { note: 'G4', dur: beat, volume: 0.7 },
+      { note: 'A4', dur: beat, volume: 0.7 },
+      { note: 'B4', dur: beat * 2, volume: 0.6 },
+      { note: 'D5', dur: beat, volume: 0.5 },
+      { note: 'B4', dur: beat * 2, volume: 0.5 },
+    ].map(n => ({ frequency: this.noteToFreq(n.note), duration: n.dur, volume: n.volume }));
+  }
+
+  private getVictoryNotes(): Note[] {
+    const bpm = 115;
+    const beat = 60 / bpm;
+    return [
+      { note: 'D4', dur: beat / 2 },
+      { note: 'G4', dur: beat / 2 },
+      { note: 'B4', dur: beat },
+      { note: 'D5', dur: beat * 2 },
+    ].map(n => ({ frequency: this.noteToFreq(n.note), duration: n.dur }));
+  }
+
+  private getGameoverNotes(): Note[] {
+    const bpm = 50;
+    const beat = 60 / bpm;
+    return [
+      { note: 'D4', dur: beat, volume: 0.7 },
+      { note: 'C4', dur: beat, volume: 0.6 },
+      { note: 'A3', dur: beat * 2, volume: 0.4 },
+      { note: 'G3', dur: beat * 2, volume: 0.3 },
+    ].map(n => ({ frequency: this.noteToFreq(n.note), duration: n.dur, volume: n.volume }));
+  }
+
   private scheduleTrack(notes: Note[]): number {
     const ctx = this.getContext();
     if (!ctx) return 0;
@@ -182,9 +216,16 @@ class MusicSystem {
 
     let notes: Note[];
     switch (this.currentTrack) {
-      case 'gameplay':
-        notes = this.getGameplayNotes();
+      case 'menu':
+        notes = this.getMenuNotes();
         break;
+      case 'victory':
+        notes = this.getVictoryNotes();
+        break;
+      case 'gameover':
+        notes = this.getGameoverNotes();
+        break;
+      case 'gameplay':
       default:
         notes = this.getGameplayNotes();
     }

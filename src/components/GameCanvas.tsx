@@ -6,6 +6,7 @@ import { Commodity } from '@/game/types';
 import { StationView } from './StationView';
 import { GalaxyMap } from './GalaxyMap';
 import { JumpScreen } from './JumpScreen';
+import { Music } from '@/game/Music';
 
 export function GameCanvas() {
   const [game] = useState<Game>(() => createGame());
@@ -102,6 +103,21 @@ export function GameCanvas() {
       return () => clearTimeout(timer);
     }
   }, [state.view, jumpTarget, game, galaxy.systems, refresh]);
+
+  // Switch music tracks based on view
+  useEffect(() => {
+    switch (state.view) {
+      case 'station':
+        Music.play('menu');
+        break;
+      case 'galaxy':
+        Music.play('gameplay');
+        break;
+      case 'jumping':
+        Music.play('victory');
+        break;
+    }
+  }, [state.view]);
 
   return (
     <div className="w-full h-screen bg-black p-4">
